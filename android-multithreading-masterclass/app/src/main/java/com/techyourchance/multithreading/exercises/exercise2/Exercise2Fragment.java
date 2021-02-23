@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class Exercise2Fragment extends BaseFragment {
 
     public static Fragment newInstance() {
@@ -22,6 +24,7 @@ public class Exercise2Fragment extends BaseFragment {
     }
 
     private byte[] mDummyData;
+    private AtomicBoolean mFlag = new AtomicBoolean(false);
 
     @Nullable
     @Override
@@ -39,6 +42,7 @@ public class Exercise2Fragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
+        mFlag.set(true);
     }
 
     @Override
@@ -58,6 +62,9 @@ public class Exercise2Fragment extends BaseFragment {
                         return;
                     }
                     screenTimeSeconds++;
+                    if(mFlag.get()){
+                        return;
+                    }
                     Log.d("Exercise 2", "screen time: " + screenTimeSeconds + "s");
                 }
             }
