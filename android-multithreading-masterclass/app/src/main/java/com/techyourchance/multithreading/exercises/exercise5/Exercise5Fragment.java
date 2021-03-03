@@ -178,8 +178,11 @@ public class Exercise5Fragment extends BaseFragment {
 
         private int mCurrentSize = 0;
 
+        private static final Object QUEUE_LOCK = new Object();
+
         private MyBlockingQueue(int capacity) {
             mCapacity = capacity;
+            Log.d("MyBlockingQueue", "capacity ->" + capacity);
         }
 
         /**
@@ -189,9 +192,18 @@ public class Exercise5Fragment extends BaseFragment {
          * @param number the element to add
          */
         public void put(int number) {
-            if (mCurrentSize < mCapacity) {
+            synchronized (QUEUE_LOCK) {
+                while(mCurrentSize >= mCapacity){
+                    try {
+                        QUEUE_LOCK.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                }
                 mQueue.offer(number);
                 mCurrentSize++;
+                QUEUE_LOCK.notifyAll();
             }
         }
 
@@ -202,15 +214,19 @@ public class Exercise5Fragment extends BaseFragment {
          * @return the head of this queue
          */
         public int take() {
-            if (mCurrentSize > 0) {
-                mCurrentSize--;
-                Integer message = mQueue.poll();
-                if (message != null) {
-                    return message;
+            synchronized (QUEUE_LOCK){
+                while(mCurrentSize <= 0){
+                    try {
+                        QUEUE_LOCK.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return 0;
+                    }
                 }
+                mCurrentSize--;
+                QUEUE_LOCK.notifyAll();
+                return mQueue.poll();
             }
-
-            return -1;
         }
     }
 }
