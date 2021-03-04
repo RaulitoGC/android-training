@@ -1,11 +1,11 @@
 package com.techyourchance.multithreading.exercises.exercise7;
 
 import android.os.Handler;
-import android.os.Looper;
 
 import com.techyourchance.multithreading.common.BaseObservable;
 
 import java.math.BigInteger;
+import java.util.concurrent.ExecutorService;
 
 import androidx.annotation.WorkerThread;
 
@@ -19,16 +19,20 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
 
     private final Object LOCK = new Object();
 
-    private final Handler mUiHandler = new Handler(Looper.getMainLooper());
-
     private int mNumberOfThreads;
     private ComputationRange[] mThreadsComputationRanges;
     private volatile BigInteger[] mThreadsComputationResults;
     private int mNumOfFinishedThreads = 0;
-
     private long mComputationTimeoutTime;
-
     private boolean mAbortComputation;
+
+    private final Handler mUiHandler;
+    private final ExecutorService mThreadPoolExecutor;
+
+    public ComputeFactorialUseCase(Handler mUiHandler, ExecutorService mThreadPoolExecutor) {
+        this.mUiHandler = mUiHandler;
+        this.mThreadPoolExecutor = mThreadPoolExecutor;
+    }
 
     @Override
     protected void onLastListenerUnregistered() {
@@ -88,7 +92,7 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
 
             final int threadIndex = i;
 
-            new Thread(() -> {
+            mThreadPoolExecutor.execute(() -> {
                 long rangeStart = mThreadsComputationRanges[threadIndex].start;
                 long rangeEnd = mThreadsComputationRanges[threadIndex].end;
                 BigInteger product = new BigInteger("1");
@@ -105,7 +109,7 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
                     LOCK.notifyAll();
                 }
 
-            }).start();
+            });
         }
     }
 
