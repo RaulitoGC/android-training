@@ -4,12 +4,15 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.techyourchance.multithreading.common.BaseObservable;
+import com.techyourchance.threadposter.BackgroundThreadPoster;
+import com.techyourchance.threadposter.UiThreadPoster;
 
 import java.math.BigInteger;
 
 import androidx.annotation.WorkerThread;
 
 public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Listener> {
+
 
     public interface Listener {
         void onFactorialComputed(BigInteger result);
@@ -19,8 +22,6 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
 
     private final Object LOCK = new Object();
 
-    private final Handler mUiHandler = new Handler(Looper.getMainLooper());
-
     private int mNumberOfThreads;
     private ComputationRange[] mThreadsComputationRanges;
     private volatile BigInteger[] mThreadsComputationResults;
@@ -29,6 +30,14 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
     private long mComputationTimeoutTime;
 
     private boolean mAbortComputation;
+
+    private final UiThreadPoster mUiThreadPoster;
+    private final BackgroundThreadPoster mBackgroundThreadPoster;
+
+    public ComputeFactorialUseCase(UiThreadPoster mUiThreadPoster, BackgroundThreadPoster mBackgroundThreadPoster) {
+        this.mUiThreadPoster = mUiThreadPoster;
+        this.mBackgroundThreadPoster = mBackgroundThreadPoster;
+    }
 
     @Override
     protected void onLastListenerUnregistered() {
@@ -40,12 +49,12 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
     }
 
     public void computeFactorialAndNotify(final int argument, final int timeout) {
-        new Thread(() -> {
+        mBackgroundThreadPoster.post(() -> {
             initComputationParams(argument, timeout);
             startComputation();
             waitForThreadsResultsOrTimeoutOrAbort();
             processComputationResults();
-        }).start();
+        });
     }
 
     private void initComputationParams(int factorialArgument, int timeout) {
@@ -88,7 +97,7 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
 
             final int threadIndex = i;
 
-            new Thread(() -> {
+            mBackgroundThreadPoster.post(() -> {
                 long rangeStart = mThreadsComputationRanges[threadIndex].start;
                 long rangeEnd = mThreadsComputationRanges[threadIndex].end;
                 BigInteger product = new BigInteger("1");
@@ -105,7 +114,7 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
                     LOCK.notifyAll();
                 }
 
-            }).start();
+            });
         }
     }
 
@@ -161,7 +170,7 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
     }
 
     private void notifySuccess(final BigInteger result) {
-        mUiHandler.post(() -> {
+        mUiThreadPoster.post(() -> {
             for (Listener listener : getListeners()) {
                 listener.onFactorialComputed(result);
             }
@@ -169,7 +178,7 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
     }
 
     private void notifyAborted() {
-        mUiHandler.post(() -> {
+        mUiThreadPoster.post(() -> {
             for (Listener listener : getListeners()) {
                 listener.onFactorialComputationAborted();
             }
@@ -177,7 +186,7 @@ public class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseC
     }
 
     private void notifyTimeout() {
-        mUiHandler.post(() -> {
+        mUiThreadPoster.post(() -> {
             for (Listener listener : getListeners()) {
                 listener.onFactorialComputationTimedOut();
             }
