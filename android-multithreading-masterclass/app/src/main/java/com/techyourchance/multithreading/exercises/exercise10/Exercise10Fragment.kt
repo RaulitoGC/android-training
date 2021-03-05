@@ -16,8 +16,10 @@ import com.techyourchance.multithreading.common.BaseFragment
 import java.math.BigInteger
 import androidx.fragment.app.Fragment
 import com.techyourchance.multithreading.DefaultConfiguration
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class Exercise10Fragment : BaseFragment(), ComputeFactorialUseCase.Listener {
+class Exercise10Fragment : BaseFragment(), ComputeFactorialUseCase.Listener{
 
     private lateinit var edtArgument: EditText
     private lateinit var edtTimeout: EditText
@@ -25,6 +27,8 @@ class Exercise10Fragment : BaseFragment(), ComputeFactorialUseCase.Listener {
     private lateinit var txtResult: TextView
 
     private lateinit var computeFactorialUseCase: ComputeFactorialUseCase
+
+    private var job: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +59,10 @@ class Exercise10Fragment : BaseFragment(), ComputeFactorialUseCase.Listener {
 
             val argument = Integer.valueOf(edtArgument.text.toString())
 
-            computeFactorialUseCase.computeFactorialAndNotify(argument, getTimeout())
+            job = CoroutineScope(Dispatchers.Main).launch {
+                computeFactorialUseCase.computeFactorialAndNotify(argument, getTimeout(),this@Exercise10Fragment)
+            }
+
         }
 
         return view
@@ -63,13 +70,15 @@ class Exercise10Fragment : BaseFragment(), ComputeFactorialUseCase.Listener {
 
     override fun onStart() {
         super.onStart()
-        computeFactorialUseCase.registerListener(this)
+
     }
 
     override fun onStop() {
         super.onStop()
-        computeFactorialUseCase.unregisterListener(this)
-
+        computeFactorialUseCase.cancelComputation()
+        job?.apply {
+            cancel()
+        }
     }
 
     override fun getScreenTitle(): String {
@@ -77,6 +86,7 @@ class Exercise10Fragment : BaseFragment(), ComputeFactorialUseCase.Listener {
     }
 
     override fun onFactorialComputed(result: BigInteger) {
+
         txtResult.text = result.toString()
         btnStartWork.isEnabled = true
     }

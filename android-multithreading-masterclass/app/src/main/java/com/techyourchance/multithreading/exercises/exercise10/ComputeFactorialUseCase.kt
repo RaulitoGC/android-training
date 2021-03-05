@@ -8,11 +8,13 @@ import com.techyourchance.multithreading.common.BaseObservable
 import java.math.BigInteger
 
 import androidx.annotation.WorkerThread
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>() {
+class ComputeFactorialUseCase {
 
     private val reentrantLock = ReentrantLock()
     private val lockCondition = reentrantLock.newCondition()
@@ -21,7 +23,8 @@ class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>
 
     private var numberOfThreads: Int = 0
     private var threadsComputationRanges: Array<ComputationRange?> = arrayOf()
-    @Volatile private var threadsComputationResults: Array<BigInteger?> = arrayOf()
+    @Volatile
+    private var threadsComputationResults: Array<BigInteger?> = arrayOf()
     private var numOfFinishedThreads = 0
 
     private var computationTimeoutTime: Long = 0
@@ -34,21 +37,21 @@ class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>
         fun onFactorialComputationAborted()
     }
 
-    override fun onLastListenerUnregistered() {
-        super.onLastListenerUnregistered()
+
+    fun cancelComputation() {
         reentrantLock.withLock {
             abortComputation = true
             lockCondition.signalAll()
         }
     }
 
-    fun computeFactorialAndNotify(argument: Int, timeout: Int) {
-        Thread {
+    suspend fun computeFactorialAndNotify(argument: Int, timeout: Int, listener: Listener) {
+        withContext(Dispatchers.IO) {
             initComputationParams(argument, timeout)
             startComputation()
             waitForThreadsResultsOrTimeoutOrAbort()
-            processComputationResults()
-        }.start()
+            processComputationResults(listener)
+        }
     }
 
     private fun initComputationParams(factorialArgument: Int, timeout: Int) {
@@ -88,10 +91,10 @@ class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>
     }
 
     @WorkerThread
-    private fun startComputation() {
+    private suspend fun startComputation() {
         for (i in 0 until numberOfThreads) {
 
-            Thread {
+            withContext(Dispatchers.IO) {
                 val rangeStart = threadsComputationRanges[i]!!.start
                 val rangeEnd = threadsComputationRanges[i]!!.end
                 var product = BigInteger("1")
@@ -108,7 +111,7 @@ class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>
                     lockCondition.signalAll()
                 }
 
-            }.start()
+            }
         }
     }
 
@@ -127,9 +130,12 @@ class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>
     }
 
     @WorkerThread
-    private fun processComputationResults() {
+    private suspend fun processComputationResults(listener: Listener) {
         if (abortComputation) {
-            notifyAborted()
+            //notifyAborted()
+            withContext(Dispatchers.Main) {
+                listener.onFactorialComputationAborted()
+            }
             return
         }
 
@@ -137,11 +143,18 @@ class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>
 
         // need to check for timeout after computation of the final result
         if (isTimedOut()) {
-            notifyTimeout()
+            withContext(Dispatchers.Main){
+                listener.onFactorialComputationTimedOut()
+            }
+            //notifyTimeout()
             return
         }
 
-        notifySuccess(result)
+        withContext(Dispatchers.Main){
+            listener.onFactorialComputed(result)
+        }
+
+        //notifySuccess(result)
     }
 
     @WorkerThread
@@ -164,29 +177,29 @@ class ComputeFactorialUseCase : BaseObservable<ComputeFactorialUseCase.Listener>
         return System.currentTimeMillis() >= computationTimeoutTime
     }
 
-    private fun notifySuccess(result: BigInteger) {
-        uiHandler.post {
-            for (listener in listeners) {
-                listener.onFactorialComputed(result)
-            }
-        }
-    }
-
-    private fun notifyAborted() {
-        uiHandler.post {
-            for (listener in listeners) {
-                listener.onFactorialComputationAborted()
-            }
-        }
-    }
-
-    private fun notifyTimeout() {
-        uiHandler.post {
-            for (listener in listeners) {
-                listener.onFactorialComputationTimedOut()
-            }
-        }
-    }
+//    private fun notifySuccess(result: BigInteger) {
+//        uiHandler.post {
+//            for (listener in listeners) {
+//                listener.onFactorialComputed(result)
+//            }
+//        }
+//    }
+//
+//    private fun notifyAborted() {
+//        uiHandler.post {
+//            for (listener in listeners) {
+//                listener.onFactorialComputationAborted()
+//            }
+//        }
+//    }
+//
+//    private fun notifyTimeout() {
+//        uiHandler.post {
+//            for (listener in listeners) {
+//                listener.onFactorialComputationTimedOut()
+//            }
+//        }
+//    }
 
 
     private data class ComputationRange(val start: Long, val end: Long)
