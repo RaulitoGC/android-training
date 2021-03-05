@@ -20,7 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class Exercise9Fragment extends BaseFragment implements ComputeFactorialUseCase.Listener {
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+public class Exercise9Fragment extends BaseFragment{
 
     public static Fragment newInstance() {
         return new Exercise9Fragment();
@@ -34,6 +39,7 @@ public class Exercise9Fragment extends BaseFragment implements ComputeFactorialU
     private TextView mTxtResult;
 
     private ComputeFactorialUseCase mComputeFactorialUseCase;
+    private Disposable mDisposable;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,23 +72,30 @@ public class Exercise9Fragment extends BaseFragment implements ComputeFactorialU
 
             int argument = Integer.valueOf(mEdtArgument.getText().toString());
 
-            mComputeFactorialUseCase.computeFactorialAndNotify(argument, getTimeout());
+            mDisposable = mComputeFactorialUseCase.computeFactorialAndNotify(argument, getTimeout())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe( result -> {
+                if(result.isTimeOut()){
+                    onFactorialComputationTimedOut();
+                }else if(result.isAborted()){
+                    onFactorialComputationAborted();
+                }else{
+                    onFactorialComputed(result.getResult());
+                }
+            });
         });
 
         return view;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        mComputeFactorialUseCase.registerListener(this);
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
-        mComputeFactorialUseCase.unregisterListener(this);
-
+        mComputeFactorialUseCase.cancelComputation();
+        if(mDisposable != null){
+            mDisposable.dispose();
+        }
     }
 
     @Override
@@ -103,19 +116,18 @@ public class Exercise9Fragment extends BaseFragment implements ComputeFactorialU
         return timeout;
     }
 
-    @Override
     public void onFactorialComputed(BigInteger result) {
         mTxtResult.setText(result.toString());
         mBtnStartWork.setEnabled(true);
     }
 
-    @Override
+
     public void onFactorialComputationTimedOut() {
         mTxtResult.setText("Computation timed out");
         mBtnStartWork.setEnabled(true);
     }
 
-    @Override
+
     public void onFactorialComputationAborted() {
         mTxtResult.setText("Computation aborted");
         mBtnStartWork.setEnabled(true);
