@@ -1,1 +1,1 @@
-# android-threads-training
+# Android Training
