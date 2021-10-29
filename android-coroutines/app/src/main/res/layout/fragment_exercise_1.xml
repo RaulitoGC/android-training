@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="100dp"
+        android:inputType="phone"
         android:gravity="center"
         android:hint="User ID"/>
 
