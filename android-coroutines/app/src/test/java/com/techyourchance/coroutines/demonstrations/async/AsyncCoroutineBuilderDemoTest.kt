@@ -12,21 +12,44 @@ class AsyncCoroutineBuilderDemoTest {
             val deferreds = mutableListOf<Deferred<Int>>()
 
             for (duration in 1..5) {
+                val deferred = async {
+                    val startTimeNano = System.nanoTime()
+                    var iterations = 0
+                    while (System.nanoTime() < startTimeNano + (duration * 10f.pow(9))) {
+                        iterations++
+                    }
+                    iterations
+                }
+                val iterations = deferred.await()
+                println("finish -> $duration")
+            }
+        }
+    }
+
+    @Test
+    fun correctUseOfCoroutinesVariant2() = runBlocking {
+        withContext(Dispatchers.Default) {
+            val deferreds = mutableListOf<Deferred<Int>>()
+
+            for (duration in 1..5) {
                 deferreds.add(
-                        async {
-                            val startTimeNano = System.nanoTime()
-                            var iterations = 0
-                            while (System.nanoTime() < startTimeNano + (duration * 10f.pow(9))) {
-                                iterations++
-                            }
-                            iterations
+                    async {
+                        val startTimeNano = System.nanoTime()
+                        var iterations = 0
+                        println("duration start= ${duration * 10f.pow(9)}")
+                        while (System.nanoTime() < startTimeNano + (duration * 10f.pow(9))) {
+                            iterations++
                         }
+                        println("duration end = ${duration * 10f.pow(9)}")
+                        iterations
+                    }
                 )
             }
-            
+
             var totalIterations = 0
             for (deferred in deferreds) {
                 totalIterations += deferred.await()
+                println("finish deferred")
             }
 
             println("total iterations: $totalIterations")
@@ -34,7 +57,7 @@ class AsyncCoroutineBuilderDemoTest {
     }
 
     @Test
-    fun correctUseOfCoroutinesVariant2() = runBlocking {
+    fun correctUseOfCoroutinesVariant3() = runBlocking {
         withContext(Dispatchers.Default) {
             val totalIterations = (1..5).toList().map { duration ->
                 async {

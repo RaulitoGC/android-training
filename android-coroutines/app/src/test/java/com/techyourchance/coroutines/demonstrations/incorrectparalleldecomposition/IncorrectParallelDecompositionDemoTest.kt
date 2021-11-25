@@ -2,6 +2,7 @@ package com.techyourchance.coroutines.demonstrations.incorrectparalleldecomposit
 
 import kotlinx.coroutines.*
 import org.junit.Test
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.pow
 
 class IncorrectParallelDecompositionDemoTest {
@@ -11,6 +12,7 @@ class IncorrectParallelDecompositionDemoTest {
         var totalIterations = 0
         withContext(Dispatchers.Default) {
             for (duration in 1..5) {
+                println("start + $duration")
                 launch {
                     val startTimeNano = System.nanoTime()
                     var iterations = 0
@@ -19,10 +21,12 @@ class IncorrectParallelDecompositionDemoTest {
                     }
                     totalIterations += iterations
                 }
+                println("end + $duration")
             }
         }
         println("total iterations: $totalIterations")
     }
+    //144419423
 
     @Test
     fun atomicityProblemDemo() = runBlocking {

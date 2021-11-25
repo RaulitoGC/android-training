@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import java.lang.Exception
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.coroutineContext
 
 class Exercise7Test {
 
@@ -20,8 +21,21 @@ class Exercise7Test {
         runBlocking {
             val scopeJob = Job()
             val scope = CoroutineScope(scopeJob + CoroutineName("outer scope") + Dispatchers.IO)
+            scope.launch {
 
+                launch(CoroutineName("withContext-11111111111")) {
+                    println("withcontext-111111 printed")
+                    delay(10)
+                }
 
+                launch(CoroutineName("withContext-2222222")){
+                    println("withcontext-2222222 printed")
+                    delay(10)
+                }
+
+            }
+            printJobsHierarchy(scopeJob)
+            scope.cancel()
             scopeJob.join()
             println("test done")
         }
@@ -41,6 +55,10 @@ class Exercise7Test {
             scopeJob.join()
             println("test done")
         }
+    }
+
+    suspend fun asdas(){
+        println(coroutineContext)
     }
 
     /*
