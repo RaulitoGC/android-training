@@ -53,7 +53,6 @@ class Exercise8Fragment : BaseFragment() {
                     updateElapsedTimeJob.cancel()
                 } catch (e: CancellationException) {
                     updateElapsedTimeJob.cancelAndJoin()
-                    txtElapsedTime.text = ""
                 } finally {
                     btnFetch.isEnabled = true
                 }
@@ -71,12 +70,16 @@ class Exercise8Fragment : BaseFragment() {
 
 
     private suspend fun updateElapsedTime() {
-        val startTimeNano = System.nanoTime()
-        while (true) {
-            delay(100)
-            val elapsedTimeNano = System.nanoTime() - startTimeNano
-            val elapsedTimeMs = elapsedTimeNano / 1000000
-            txtElapsedTime.text = "Elapsed time: $elapsedTimeMs ms"
+        try{
+            val startTimeNano = System.nanoTime()
+            while (true) {
+                delay(100)
+                val elapsedTimeNano = System.nanoTime() - startTimeNano
+                val elapsedTimeMs = elapsedTimeNano / 1000000
+                txtElapsedTime.text = "Elapsed time: $elapsedTimeMs ms"
+            }
+        } catch (e: CancellationException) {
+            txtElapsedTime.text = ""
         }
     }
 
