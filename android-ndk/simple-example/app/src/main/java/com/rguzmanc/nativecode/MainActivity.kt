@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         sb.append(stringFromJNI())
         sb.append(getAnotherStringFromJNI())
         binding.sampleText.text = sb.toString()
+        printHelloDash("Debugger")
     }
 
     /**
@@ -35,5 +36,7 @@ class MainActivity : AppCompatActivity() {
         init {
             System.loadLibrary("nativecode")
         }
+
+        external fun printHelloDash(name: String)
     }
 }
