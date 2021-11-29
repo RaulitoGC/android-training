@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         sb.append(stringFromJNI())
         sb.append(getAnotherStringFromJNI())
         binding.sampleText.text = sb.toString()
-        printDebugger("Debugger")
+        printDebugger(MainActivity.javaClass.name, "Debugger")
     }
 
     /**
