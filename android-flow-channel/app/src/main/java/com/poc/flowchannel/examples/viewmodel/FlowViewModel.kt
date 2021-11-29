@@ -14,8 +14,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class FlowViewModel : ViewModel() {
 
     val flowValues = MutableLiveData<String>()

@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/goToAppButton"
+            android:id="@+id/button_go_to_app"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -31,7 +31,7 @@
             android:background="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/goToAppButton" />
+            app:layout_constraintTop_toBottomOf="@id/button_go_to_app" />
 
         <TextView
             android:id="@+id/flowTestTitles"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@id/separator1" />
 
         <Button
-            android:id="@+id/goToFlowButton"
+            android:id="@+id/button_flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -68,10 +68,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/goToFlowButton" />
+            app:layout_constraintTop_toBottomOf="@id/button_flow" />
 
         <Button
-            android:id="@+id/goToChannelButton"
+            android:id="@+id/button_channel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@id/channelTestTitles" />
 
         <Button
-            android:id="@+id/goToChannelReceiversButton"
+            android:id="@+id/button_channel_receivers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -92,10 +92,10 @@
             android:layout_marginTop="8dp"
             android:text="Channel with >1 receivers"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/goToChannelButton" />
+            app:layout_constraintTop_toBottomOf="@id/button_channel" />
 
         <Button
-            android:id="@+id/goToBroadcastChannelButton"
+            android:id="@+id/button_broadcast_channel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -104,7 +104,7 @@
             android:layout_marginTop="8dp"
             android:text="Broadcast Channels"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/goToChannelReceiversButton" />
+            app:layout_constraintTop_toBottomOf="@id/button_channel_receivers" />
 
         <TextView
             android:id="@+id/stateFlowTestTitles"
@@ -116,10 +116,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/goToBroadcastChannelButton" />
+            app:layout_constraintTop_toBottomOf="@id/button_broadcast_channel" />
 
         <Button
-            android:id="@+id/goToStateFlowButton"
+            android:id="@+id/button_state_flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

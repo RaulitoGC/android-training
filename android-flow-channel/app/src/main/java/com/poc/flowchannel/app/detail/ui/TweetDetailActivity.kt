@@ -9,15 +9,12 @@ import androidx.lifecycle.Observer
 import com.poc.flowchannel.R
 import com.poc.flowchannel.app.detail.viewmodel.TweetDetailViewModel
 import com.poc.flowchannel.app.home.model.ScreenTweet
-import kotlinx.android.synthetic.main.activity_home.unreadMessagesText
-import kotlinx.android.synthetic.main.activity_tweet_detail.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import com.poc.flowchannel.databinding.ActivityTweetDetailBinding
 
-@ExperimentalCoroutinesApi
-@FlowPreview
+
 class TweetDetailActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityTweetDetailBinding
     private val viewModel: TweetDetailViewModel by viewModels()
 
     companion object {
@@ -36,13 +33,14 @@ class TweetDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tweet_detail)
+        binding = ActivityTweetDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         fillData()
         bindObservers()
     }
 
-    private fun fillData() {
+    private fun fillData() = with(binding){
         val screenTweet = intent.extras?.get(SCREEN_TWEET_KEY) as ScreenTweet
         firstNameLetterText.text = screenTweet.username.first().toUpperCase().toString()
         usernameText.text = screenTweet.username
@@ -56,13 +54,13 @@ class TweetDetailActivity : AppCompatActivity() {
 
     private fun bindObservers() {
         viewModel.unreadMessages.observe(this, Observer {
-            unreadMessagesText.text = it.toString()
+            binding.unreadMessagesText.text = it.toString()
         })
 
         viewModel.tweetInteractions.observe(this, Observer {
-            repliesText.text = it.responsesQuantity.toString()
-            retweetsText.text = it.rtsQuantity.toString()
-            favsText.text = it.favoritesQuantity.toString()
+            binding.repliesText.text = it.responsesQuantity.toString()
+            binding.retweetsText.text = it.rtsQuantity.toString()
+            binding.favsText.text = it.favoritesQuantity.toString()
         })
     }
 

@@ -12,8 +12,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@FlowPreview
-@ExperimentalCoroutinesApi
+
 class BroadcastChannelViewModel : ViewModel() {
 
     private val broadcastChannel = BroadcastChannel<String>(BUFFERED)

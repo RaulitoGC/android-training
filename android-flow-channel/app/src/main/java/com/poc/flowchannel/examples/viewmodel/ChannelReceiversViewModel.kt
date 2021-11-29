@@ -12,8 +12,6 @@ import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class ChannelReceiversViewModel : ViewModel() {
 
     private val rendezvousChannel = Channel<String>(RENDEZVOUS)

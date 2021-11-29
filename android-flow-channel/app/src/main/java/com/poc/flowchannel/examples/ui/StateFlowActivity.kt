@@ -6,28 +6,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
 import com.poc.flowchannel.R
+import com.poc.flowchannel.databinding.ActivityMainBinding
+import com.poc.flowchannel.databinding.ActivityStateflowBinding
 import com.poc.flowchannel.examples.viewmodel.StateFlowViewModel
-import kotlinx.android.synthetic.main.activity_stateflow.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class StateFlowActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityStateflowBinding
     private val viewModel: StateFlowViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_stateflow)
+        binding = ActivityStateflowBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         bindListeners()
     }
 
     private fun bindListeners() {
-        initFlows.setOnClickListener {
+        binding.initFlows.setOnClickListener {
             viewModel.initEmissions()
         }
 
-        addReceiver.setOnClickListener {
+        binding.addReceiver.setOnClickListener {
             val textView = createTextView()
             viewModel.addStateFlowCollector().observe(this, Observer {
                 textView.text = "Value: $it"
@@ -37,7 +38,7 @@ class StateFlowActivity : AppCompatActivity() {
 
     private fun createTextView(): AppCompatTextView {
         val textView = AppCompatTextView(this)
-        stateFlowValuesContainer.addView(textView)
+        binding.stateFlowValuesContainer.addView(textView)
         return textView
     }
 

@@ -5,20 +5,20 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.poc.flowchannel.R
+import com.poc.flowchannel.databinding.ActivityChannelsReceiversBinding
+import com.poc.flowchannel.databinding.ActivityFlowBinding
 import com.poc.flowchannel.examples.viewmodel.FlowViewModel
-import kotlinx.android.synthetic.main.activity_flow.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
-@FlowPreview
-@ExperimentalCoroutinesApi
+
 class FlowActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityFlowBinding
     private val flowViewModel: FlowViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_flow)
+        binding = ActivityFlowBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         bindObservers()
         bindListeners()
@@ -26,15 +26,15 @@ class FlowActivity : AppCompatActivity() {
 
     private fun bindObservers() {
         flowViewModel.flowValues.observe(this, Observer {
-            flowValues.text = it
+            binding.flowValues.text = it
         })
         flowViewModel.callbackFlowValues.observe(this, Observer {
-            callbackFlowValues.text = it
+            binding.callbackFlowValues.text = it
         })
     }
 
     private fun bindListeners() {
-        initFlows.setOnClickListener { flowViewModel.initEmissions() }
+        binding.initFlows.setOnClickListener { flowViewModel.initEmissions() }
     }
 
 }

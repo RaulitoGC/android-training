@@ -7,13 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.poc.flowchannel.app.core.usecase.CoreUseCaseFactory
 import com.poc.flowchannel.app.home.model.ScreenTweet
 import com.poc.flowchannel.app.home.usecase.HomeUseCaseFactory
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class HomeViewModel : ViewModel() {
 
     private val getUnreadMessagesUseCase = CoreUseCaseFactory.getUnreadMessagesUseCase()

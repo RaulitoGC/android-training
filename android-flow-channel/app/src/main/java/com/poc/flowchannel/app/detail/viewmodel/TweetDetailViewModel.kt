@@ -13,8 +13,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class TweetDetailViewModel : ViewModel() {
 
     private val getTweetInteractionUseCase = TweetDetailUseCaseFactory.getTweetInteractionsUseCase()

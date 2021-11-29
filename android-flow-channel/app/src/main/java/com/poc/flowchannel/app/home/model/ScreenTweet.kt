@@ -2,7 +2,7 @@ package com.poc.flowchannel.app.home.model
 
 import android.os.Parcelable
 import com.poc.flowchannel.app.core.model.Tweet
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ScreenTweet(

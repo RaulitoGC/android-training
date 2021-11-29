@@ -9,8 +9,6 @@ import kotlin.collections.set
 
 private const val FIXED_BUFFER_SIZE = 2
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class ChannelViewModel : ViewModel() {
 
     private var conflatedBroadcastChannel = BroadcastChannel<String>(Channel.CONFLATED)

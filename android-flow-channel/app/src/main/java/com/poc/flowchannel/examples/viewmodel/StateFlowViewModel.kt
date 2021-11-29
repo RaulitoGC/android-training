@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 class StateFlowViewModel : ViewModel() {
 
     private val stateFlow = MutableStateFlow(0)

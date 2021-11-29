@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.poc.flowchannel.R
 import com.poc.flowchannel.app.home.model.ScreenTweet
-import kotlinx.android.synthetic.main.tweet_item_layout.view.*
+import com.poc.flowchannel.databinding.TweetItemLayoutBinding
 
 class TweetListAdapter(
     var items: List<ScreenTweet>? = listOf(),
@@ -16,11 +16,10 @@ class TweetListAdapter(
     private lateinit var inflater: LayoutInflater
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetListViewHolder {
-        if (!::inflater.isInitialized) inflater = LayoutInflater.from(parent.context)
-        val view: View = inflater.inflate(R.layout.tweet_item_layout, parent, false)
+        val view = TweetItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        view.setOnClickListener {
-            tweetListCallback.onTweetSelected(view.getTag(R.id.list_tweet) as ScreenTweet)
+        view.root.setOnClickListener {
+            tweetListCallback.onTweetSelected(view.root.getTag(R.id.list_tweet) as ScreenTweet)
         }
 
         return TweetListViewHolder(view)
@@ -32,15 +31,15 @@ class TweetListAdapter(
         holder.bind(items?.get(position)!!)
 }
 
-class TweetListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class TweetListViewHolder(private val binding: TweetItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(screenTweet: ScreenTweet) {
-        itemView.firstNameLetterText.text = screenTweet.username.first().toUpperCase().toString()
-        itemView.usernameText.text = screenTweet.username
-        itemView.tweetText.text = screenTweet.tweet
-        itemView.repliesText.text = screenTweet.responsesQuantity.toString()
-        itemView.retweetsText.text = screenTweet.rtsQuantity.toString()
-        itemView.favsText.text = screenTweet.favoritesQuantity.toString()
+    fun bind(screenTweet: ScreenTweet) = with(binding){
+        firstNameLetterText.text = screenTweet.username.first().toUpperCase().toString()
+        usernameText.text = screenTweet.username
+        tweetText.text = screenTweet.tweet
+        repliesText.text = screenTweet.responsesQuantity.toString()
+        retweetsText.text = screenTweet.rtsQuantity.toString()
+        favsText.text = screenTweet.favoritesQuantity.toString()
 
         itemView.setTag(R.id.list_tweet, screenTweet)
     }
