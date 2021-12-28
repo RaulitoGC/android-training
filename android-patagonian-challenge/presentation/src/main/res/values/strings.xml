@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="text_gyroscope_is_not_available">Gyroscope is not available</string>
+    <string name="text_session_count" tools:ignore="ExtraTranslation">Session count : %1$s </string>
+</resources>

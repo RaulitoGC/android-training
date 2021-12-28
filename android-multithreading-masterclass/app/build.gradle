@@ -2,30 +2,29 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.techyourchance.multithreading"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        release {
-            storeFile file('../release.keystore')
-            storePassword 'release'
-            keyAlias 'release'
-            keyPassword 'release'
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile file('../release.keystore')
+//            storePassword 'release'
+//            keyAlias 'release'
+//            keyPassword 'release'
+//        }
+//    }
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {

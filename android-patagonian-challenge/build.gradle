@@ -1,0 +1,23 @@
+apply from: 'dependencies.gradle'
+
+buildscript {
+
+    ext.androidGradlePluginVersion = '7.0.4'
+    ext.kotlinVersion = "1.5.31"
+    ext.navigationComponentVersion = "2.3.0"
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$androidGradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationComponentVersion"
+        
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
