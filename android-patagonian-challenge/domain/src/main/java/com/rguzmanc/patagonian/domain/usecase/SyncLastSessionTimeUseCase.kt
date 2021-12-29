@@ -12,7 +12,7 @@ class SyncLastSessionTimeUseCase(
     private val domainCoroutineDispatchers: DomainCoroutineDispatchers
 ) {
     companion object{
-        private const val BACKGROUND_SESSION_TIME = 1 // in minutes
+        private const val BACKGROUND_SESSION_TIME = 10 // in minutes
     }
 
     suspend operator fun invoke() = withContext(domainCoroutineDispatchers.io){

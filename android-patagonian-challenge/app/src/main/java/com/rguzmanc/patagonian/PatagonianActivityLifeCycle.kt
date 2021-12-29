@@ -20,6 +20,9 @@ class PatagonianActivityLifeCycle(
 
     }
 
+    /**
+     * When any activity is being resumed, the app is sync if the session counter needs to be incremented
+     */
     override fun onActivityResumed(activity: Activity) {
         if (activity is AppCompatActivity) {
             val compositionRoot = CompositionRoot(activity)
@@ -30,7 +33,9 @@ class PatagonianActivityLifeCycle(
     }
 
     /**
-     * Track when the app is going to background
+     * When the app is being paused, the app is saving this time in milliseconds.
+     * This will allow sync in [onActivityResumed] if the counter needs to be incremented based on
+     * the business rules.
      */
     override fun onActivityPaused(activity: Activity) {
         if (activity is AppCompatActivity) {
