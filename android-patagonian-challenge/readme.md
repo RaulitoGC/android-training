@@ -26,14 +26,27 @@ Philosophy: Simplicity is the ultimate sophistication ( Leonardo da Vincy)
    * Timber for show logs
    * For reactive streaming of gyroscope values, this app is using StateFlow. It allows to only propagates State when it change.
    * Data Store: Preferences for persistence
-
    
+   
+## Screenshots
+
+### Text size (Gyroscope)
+
+<img src="images/left.png" width="30%"> 
+<img src="images/default.png" width="30%"> 
+<img src="images/right.png" width="30%"> 
+
+### Session counter (Gyroscope)
+<img src="images/counter_testing_flow.gif" width="90%"> 
+
+
 ## Improvements
 * Add Unit test to presentation and domain layer
 * Add UI test for the rest of cases in presentation layer
 * Implement DI framework/library such as Dagger2, Hilt or Koin
 * Add better calibration algorithm for gyroscope values
 * Add SecureSharePreferences for security purposes
+* Implement procces death restoration ( SaveStateHandler in view model or native)
 
 ## Author
 Raul Guzman - [@RaulitoGC](https://github.com/RaulitoGC) on GitHub, [@rguzmanc161](https://twitter.com/rguzmanc161) on Twitter
