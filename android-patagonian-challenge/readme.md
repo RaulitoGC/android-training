@@ -32,12 +32,12 @@ Philosophy: Simplicity is the ultimate sophistication ( Leonardo da Vincy)
 
 ### Text size (Gyroscope)
 
-<img src="images/left.png" width="30%"> 
-<img src="images/default.png" width="30%"> 
-<img src="images/right.png" width="30%"> 
+<img src="images/left.png" width="50%">
+<img src="images/default.png" width="50%"> 
+<img src="images/right.png" width="50%"> 
 
 ### Session counter (Gyroscope)
-<img src="images/counter_testing_flow.gif" width="90%"> 
+<img src="images/counter_testing_flow.gif" width="50%"> 
 
 
 ## Improvements
