@@ -1,10 +1,8 @@
 package com.rguzmanc.patagonian.presentetation
 
-import android.content.Context
-import android.util.TypedValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rguzmanc.patagonian.domain.usecase.GetDeviceRotationUseCase
+import com.rguzmanc.patagonian.domain.usecase.GetLastSessionTimeUseCase
 import com.rguzmanc.patagonian.domain.usecase.GetSessionCountUseCase
 import com.rguzmanc.patagonian.presentetation.util.MathUtils
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,11 +13,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class PatagonianViewModel(
-    private val getDeviceRotationUseCase: GetDeviceRotationUseCase,
-    private val getSessionCountUseCase: GetSessionCountUseCase
-): ViewModel() {
+    private val getSessionCountUseCase: GetSessionCountUseCase,
+    private val getLastSessionTimeUseCase: GetLastSessionTimeUseCase
+) : ViewModel() {
 
-    companion object{
+    companion object {
         const val DEFAULT_SESSION_COUNT = 1
     }
 
@@ -40,8 +38,7 @@ class PatagonianViewModel(
         }
     }
 
-
-    fun getDimension(dz: Float) =  viewModelScope.launch{
+    fun getDimension(dz: Float) = viewModelScope.launch {
         val degrees = MathUtils.toDegrees(dz)
 
         val sizeId = when {

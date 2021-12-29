@@ -1,14 +1,19 @@
 package com.rguzmanc.patagonian
 
 import android.app.Application
+import com.rguzmanc.patagonian.di.AppCoroutineScope
+import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-import timber.log.Timber
+class PatagonianApplication : Application() {
 
-open class PatagonianApplication: Application() {
+    private lateinit var activityLifeCycle: PatagonianActivityLifeCycle
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(DebugTree())
+        activityLifeCycle =
+            PatagonianActivityLifeCycle(AppCoroutineScope.providesAppCoroutineScope())
+        registerActivityLifecycleCallbacks(activityLifeCycle)
     }
 }

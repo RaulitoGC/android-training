@@ -4,8 +4,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface PatagonianRepository{
 
-    fun getDeviceRotation()
     suspend fun getSessionCount() : Flow<Int>
 
     suspend fun increment()
+
+    suspend fun setLastSessionTime(sessionTime: Long)
+
+    suspend fun getLastSessionTime(): Flow<Long>
 }

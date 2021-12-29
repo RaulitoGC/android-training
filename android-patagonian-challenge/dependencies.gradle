@@ -3,7 +3,7 @@ ext {
     applicationId = "com.rguzmanc.patagonian"
     compileVersion = 30
     buildToolsVersion = "30.0.3"
-    minVersion = 23
+    minVersion = 26
     targetVersion = 30
 
     // Kotlin
@@ -40,7 +40,9 @@ ext {
     applicationDependencies = [
             "androidx.core:core-ktx:$coreKtxVersion",
             "androidx.appcompat:appcompat:$appCompatVersion",
-            "com.google.android.material:material:$materialComponentsVersion"
+            "com.google.android.material:material:$materialComponentsVersion",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
     ]
 
     glideCompiler = "com.github.bumptech.glide:compiler:$glideVersion"
@@ -80,8 +82,7 @@ ext {
     domainDependencies = [
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion",
-            "com.jakewharton.timber:timber:$timberVersion"
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
     ]
 
     debugDependencies = [

@@ -39,5 +39,6 @@ dependencies {
     implementation rootProject.ext.debugDependencies
 
     implementation project(":presentation")
+    compileOnly project(":domain")
     testImplementation rootProject.ext.unitTestDependencies
 }

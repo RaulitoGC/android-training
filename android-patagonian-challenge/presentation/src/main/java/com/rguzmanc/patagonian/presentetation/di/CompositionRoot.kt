@@ -7,13 +7,25 @@ import com.rguzmanc.patagonian.domain.di.DomainServiceLocator
 
 class CompositionRoot(appCompatActivity: AppCompatActivity) {
 
-    val getDeviceRotationUseCase = DomainServiceLocator.createGetDeviceRotationUseCase(
+    val getLastSessionTimeUseCase = DomainServiceLocator.createGetLastSessionTimeUseCase(
         repository = DefaultPatagonianRepository(
             localDataSource = DataServiceLocator.getLocalDataSource(appCompatActivity)
         )
     )
 
     val getSessionCountUseCase = DomainServiceLocator.createGetSessionCountUseCase(
+        repository = DefaultPatagonianRepository(
+            localDataSource = DataServiceLocator.getLocalDataSource(appCompatActivity)
+        )
+    )
+
+    val setLastTimeSessionUseCase = DomainServiceLocator.createSetLastSessionTimeUseCase(
+        repository = DefaultPatagonianRepository(
+            localDataSource = DataServiceLocator.getLocalDataSource(appCompatActivity)
+        )
+    )
+
+    val syncSessionTimeUseCase = DomainServiceLocator.createSyncLastSessionTimeUseCase(
         repository = DefaultPatagonianRepository(
             localDataSource = DataServiceLocator.getLocalDataSource(appCompatActivity)
         )

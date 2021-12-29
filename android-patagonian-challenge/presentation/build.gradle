@@ -51,7 +51,7 @@ dependencies {
     implementation rootProject.ext.presentationDependencies
     kapt rootProject.ext.glideCompiler
 
-    implementation project(":data")
+    api project(":data")
     implementation 'com.github.KalebKE:FSensor:v2.2'
 
     testImplementation rootProject.ext.unitTestDependencies

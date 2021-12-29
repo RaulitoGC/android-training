@@ -10,8 +10,8 @@ class PatagonianViewModelProvider(private val compositionRoot: CompositionRoot) 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         return PatagonianViewModel(
-            getDeviceRotationUseCase = compositionRoot.getDeviceRotationUseCase,
-            getSessionCountUseCase = compositionRoot.getSessionCountUseCase
+            getSessionCountUseCase = compositionRoot.getSessionCountUseCase,
+            getLastSessionTimeUseCase = compositionRoot.getLastSessionTimeUseCase
         ) as T
     }
 }

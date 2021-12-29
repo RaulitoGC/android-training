@@ -60,14 +60,12 @@ class DefaultPatagonianSensor(private val context: Context) : PatagonianSensor {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     override fun registerListener() {
-        Timber.d("$TAG : Register Listener")
         fSensor?.register(sensorObserver)
         fSensor?.start()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     override fun unRegisterListener() {
-        Timber.d("$TAG : Unregister Listener")
         fSensor?.unregister(sensorObserver)
         fSensor?.stop()
     }
