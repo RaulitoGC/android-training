@@ -2,25 +2,17 @@ package com.rguzmanc.patagonian.presentetation
 
 import android.content.Context
 import android.content.Intent
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
-import android.util.TypedValue
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.kircherelectronics.fsensor.observer.SensorSubject
-import com.kircherelectronics.fsensor.sensor.FSensor
 import com.rguzmanc.patagonian.presentetation.databinding.ActivityPatagonianBinding
 import com.rguzmanc.patagonian.presentetation.di.CompositionRoot
 import com.rguzmanc.patagonian.presentetation.di.PatagonianViewModelProvider
 import com.rguzmanc.patagonian.presentetation.sensor.DefaultPatagonianSensor
 import com.rguzmanc.patagonian.presentetation.sensor.PatagonianSensor
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 class PatagonianActivity : AppCompatActivity() {
 
@@ -49,8 +41,12 @@ class PatagonianActivity : AppCompatActivity() {
         patagonianSensor = DefaultPatagonianSensor(this@PatagonianActivity)
         lifecycle.addObserver(patagonianSensor)
 
-        if(patagonianSensor.isAvailable().not()) {
-            Toast.makeText(this, getString(R.string.text_gyroscope_is_not_available), Toast.LENGTH_LONG).show()
+        if (patagonianSensor.isAvailable().not()) {
+            Toast.makeText(
+                this,
+                getString(R.string.text_gyroscope_is_not_available),
+                Toast.LENGTH_LONG
+            ).show()
             patagonianSensor.unRegisterListener()
         }
     }
@@ -66,7 +62,8 @@ class PatagonianActivity : AppCompatActivity() {
     private fun initViewModel() {
         lifecycleScope.launchWhenStarted {
             patagonianViewModel.sessionCount.collect { count ->
-                binding.txtSessionCounter.text = getString(R.string.text_session_count, count.toString())
+                binding.txtSessionCounter.text =
+                    getString(R.string.text_session_count, count.toString())
             }
         }
 

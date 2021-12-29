@@ -3,6 +3,7 @@
     package="com.rguzmanc.patagonian.presentetation">
 
     <application>
-        <activity android:name=".PatagonianActivity" />
+        <activity android:name=".PatagonianActivity"
+            android:theme="@style/Theme.PatagonianChallenge"/>
     </application>
 </manifest>
