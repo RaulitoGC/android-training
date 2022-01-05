@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.e(TAG, "onCreate()")
+
         findViewById<Button>(R.id.btn_second).setOnClickListener { Intent(this, SecondActivity::class.java).run { startActivity(this) } }
 
         mViewModel.periodTextData.distinctUntilChanged().observe(this, Observer {
@@ -38,6 +40,31 @@ class MainActivity : AppCompatActivity() {
         })
 
         mViewModel.count()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e(TAG, "onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(TAG, "onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e(TAG, "onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e(TAG, "onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e(TAG, "onDestroy()")
     }
 
     companion object {
