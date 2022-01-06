@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SecondActivity" />
+        <activity android:name=".sinngle_event.SingleEventActivity" />
     </application>
 
 </manifest>

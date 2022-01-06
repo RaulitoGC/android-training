@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.distinctUntilChanged
+import com.rguzmanc.android_lifecycle.sinngle_event.SingleEventActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         Log.e(TAG, "onCreate()")
 
-        findViewById<Button>(R.id.btn_second).setOnClickListener { Intent(this, SecondActivity::class.java).run { startActivity(this) } }
+        findViewById<Button>(R.id.btn_second).setOnClickListener {
+            Intent(this, SingleEventActivity::class.java).run { startActivity(this)
+            } }
 
         mViewModel.periodTextData.distinctUntilChanged().observe(this, Observer {
             Log.e(TAG, "updated: $it")
