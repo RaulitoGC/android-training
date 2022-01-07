@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.distinctUntilChanged
 import com.rguzmanc.android_lifecycle.sinngle_event.SingleEventActivity
+import com.rguzmanc.android_lifecycle.system_restoration.RestorationActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         Log.e(TAG, "onCreate()")
 
         findViewById<Button>(R.id.btn_second).setOnClickListener {
-            Intent(this, SingleEventActivity::class.java).run { startActivity(this)
+            Intent(this,RestorationActivity::class.java).run { startActivity(this)
             } }
 
         mViewModel.periodTextData.distinctUntilChanged().observe(this, Observer {

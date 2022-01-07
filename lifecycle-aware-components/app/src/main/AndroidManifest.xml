@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".SecondActivity" />
         <activity android:name=".sinngle_event.SingleEventActivity" />
+        <activity android:name=".system_restoration.RestorationActivity" />
     </application>
 
 </manifest>
