@@ -1,4 +1,6 @@
 package com.rguzmanc.friends.login.presentation.email
 
-class EmailViewModel {
+import androidx.lifecycle.ViewModel
+
+class EmailViewModel : ViewModel(){
 }

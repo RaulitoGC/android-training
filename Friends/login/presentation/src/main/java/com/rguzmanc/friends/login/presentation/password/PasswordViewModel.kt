@@ -1,4 +1,6 @@
 package com.rguzmanc.friends.login.presentation.password
 
-class PasswordViewModel {
+import androidx.lifecycle.ViewModel
+
+class PasswordViewModel : ViewModel() {
 }

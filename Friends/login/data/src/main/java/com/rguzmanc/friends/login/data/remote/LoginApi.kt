@@ -7,5 +7,5 @@ import retrofit2.http.Path
 interface LoginApi {
 
     @GET("users/{user}/repos")
-    fun listRepos(@Path("user") user: String?): Call<Any>?>?
+    fun listRepos(@Path("user") user: String?): Call<Any>
 }
