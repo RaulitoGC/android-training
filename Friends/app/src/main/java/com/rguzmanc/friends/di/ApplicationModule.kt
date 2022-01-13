@@ -30,7 +30,7 @@ class ApplicationModule(private val applicationContext: Context) {
 
     @Provides
     @ApplicationScope
-    fun provideSharedPreferences(context: Context): SharedPreferences =
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences("friends-shared-preferences", Context.MODE_PRIVATE)
 
     @Provides

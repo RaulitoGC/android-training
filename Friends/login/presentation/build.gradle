@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         minSdk 26
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -51,7 +51,9 @@ dependencies {
     api(project(":login:data"))
     implementation(project(":core"))
     implementation(project(":common:presentation"))
-    compileOnly(project(":common:domain"))
+    implementation(project(":common:domain"))
+
+    implementation(project(":home:presentation"))
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

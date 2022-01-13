@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'kotlin'
+    id 'kotlin-kapt'
 }
 
 java {
@@ -11,7 +12,12 @@ java {
 dependencies {
 
     def coroutines_version = '1.5.2'
+    def dagger_version = '2.40.5'
     
     implementation(project(":common:domain"))
+    implementation(project(":core"))
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 }

@@ -14,8 +14,9 @@ import javax.inject.Singleton
 @Module
 class DefaultServiceModule {
 
-    @Singleton
+
     @Provides
+    @ApplicationScope
     fun provideOkHttpClient(@BuildConfigDebug debug: Boolean): OkHttpClient {
         return OkHttpClient.Builder()
             .apply {

@@ -8,7 +8,7 @@ class LoginUsernameUseCase(
     private val dispatcher: AppCoroutineDispatchers,
     private val loginSystem: LoginSystem
 ) {
-    suspend operator fun invoke(username: String) = withContext(dispatcher.computation) {
+    suspend operator fun invoke(username: String) : Result<Any> = withContext(dispatcher.computation) {
         return@withContext loginSystem.loginUsername(username)
     }
 }

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         minSdk 26
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -43,7 +43,7 @@ dependencies {
 
     implementation "androidx.preference:preference-ktx:$preference_version"
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     implementation 'com.google.dagger:dagger:2.40.5'
     kapt 'com.google.dagger:dagger-compiler:2.40.5'

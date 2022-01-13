@@ -1,9 +1,7 @@
-package com.rguzmanc.friends.login.presentation.di
+package com.rguzmanc.friends.login.domain.di
 
 import com.rguzmanc.friends.common.domain.AppCoroutineDispatchers
 import com.rguzmanc.friends.core.ActivityScope
-import com.rguzmanc.friends.login.data.LoginDataManager
-import com.rguzmanc.friends.login.data.di.LoginDataSourceModule
 import com.rguzmanc.friends.login.domain.LoginEmailUseCase
 import com.rguzmanc.friends.login.domain.LoginPasswordUseCase
 import com.rguzmanc.friends.login.domain.LoginUsernameUseCase
@@ -11,11 +9,8 @@ import com.rguzmanc.friends.login.domain.system.LoginSystem
 import dagger.Module
 import dagger.Provides
 
-@Module(
-    subcomponents = [LoginComponent::class],
-    includes = [LoginViewModelModule::class, LoginDataSourceModule::class]
-)
-class LoginModule {
+@Module
+class LoginDomainModule {
 
     @Provides
     @ActivityScope

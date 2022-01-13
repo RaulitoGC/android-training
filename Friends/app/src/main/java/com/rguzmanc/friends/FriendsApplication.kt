@@ -18,5 +18,7 @@ class FriendsApplication: Application(), LoginComponentProvider {
             .build()
     }
 
-    override fun provideLoginComponent(): LoginComponent = appComponent.loginComponent().create()
+    override fun getLoginComponentBuilder(): LoginComponent.Builder {
+        return appComponent.loginComponentBuilder()
+    }
 }

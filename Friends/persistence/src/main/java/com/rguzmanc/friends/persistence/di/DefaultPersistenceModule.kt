@@ -16,7 +16,7 @@ class DefaultPersistenceModule {
 
     @Provides
     @ApplicationScope
-    fun provideDataBase(context: Context): AppDataBase = Room.databaseBuilder(
+    fun provideDataBase(context: Context): FriendAppDataBase = Room.databaseBuilder(
         context,
         FriendAppDataBase::class.java, "database-name"
     ).build()

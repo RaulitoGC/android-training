@@ -13,7 +13,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 
 @Module
-class LoginDataSourceModule {
+class LoginDataModule {
 
     @Provides
     @ActivityScope
