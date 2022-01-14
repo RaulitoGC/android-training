@@ -38,6 +38,7 @@ import android.graphics.Bitmap
 import android.os.Environment
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
+import com.rguzmanc.android_lifecycle.MainActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -201,5 +202,24 @@ class RestorationActivity: AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.e(MainActivity.TAG, "onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e(MainActivity.TAG, "onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e(MainActivity.TAG, "onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e(MainActivity.TAG, "onDestroy()")
+    }
 
 }
