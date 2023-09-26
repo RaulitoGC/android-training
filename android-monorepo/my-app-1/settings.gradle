@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    includeBuild("../mono-build-logic")
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "MyFirstApp"
+include ':app'
+monoInclude("shared-library-1")
+
+fun monoInclude(name: String){
+    include("$name")
+    project(":$name").projectDir = File("../mono-libraries/$name)")
+}
